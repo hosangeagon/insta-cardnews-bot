@@ -28,7 +28,7 @@ def _git_커밋_푸시(메시지):
         subprocess.run(["git", "add", "output"], cwd=Path(__file__).parent, check=True)
         결과 = subprocess.run(
             ["git", "commit", "-m", 메시지],
-            cwd=Path(__file__).parent, capture_output=True, text=True,
+            cwd=Path(__file__).parent, capture_output=True, text=True, encoding="utf-8",
         )
         if 결과.returncode != 0:
             print(f"  [git commit 생략] {결과.stdout.strip() or 결과.stderr.strip()}")
