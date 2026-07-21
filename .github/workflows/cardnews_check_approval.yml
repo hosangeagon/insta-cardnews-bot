@@ -7,16 +7,11 @@ on:
 
 jobs:
   check-approval:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: 코드 체크아웃
         uses: actions/checkout@v4
-
-      - name: Python 설치
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
 
       - name: 패키지 설치
         run: pip install -r requirements.txt
