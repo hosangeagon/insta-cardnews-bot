@@ -19,7 +19,7 @@ _HEADERS = {
 }
 
 
-def 페이지_생성(제목, 원본영상_url, 요약, 캡션, 해시태그, 이미지_url_목록):
+def 페이지_생성(제목, 원본영상_url, 요약, 캡션, 해시태그, 이미지_url_목록, 채널명=""):
     """카드뉴스 발행 관리 DB에 새 페이지를 생성하고 (page_id, page_url)을 반환합니다."""
     properties = {
         "제목": {"title": [{"text": {"content": 제목}}]},
@@ -34,6 +34,8 @@ def 페이지_생성(제목, 원본영상_url, 요약, 캡션, 해시태그, 이
             ]
         },
     }
+    if 채널명:
+        properties["채널명"] = {"rich_text": [{"text": {"content": 채널명[:2000]}}]}
     if 캡션:
         properties["캡션"] = {"rich_text": [{"text": {"content": 캡션[:2000]}}]}
     if 해시태그:
@@ -73,6 +75,7 @@ def 승인된_페이지_목록():
             "title": _제목_추출(properties),
             "source_url": properties.get("원본영상", {}).get("url", ""),
             "summary": _리치텍스트_추출(properties.get("요약")),
+            "channel": _리치텍스트_추출(properties.get("채널명")),
         })
     return 결과
 

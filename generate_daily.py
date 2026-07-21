@@ -70,7 +70,7 @@ def 영상_1건_처리(영상, 순번, 날짜문자열):
 
     print("  STEP5: 노션 페이지 생성 중...")
     _, page_url = 페이지_생성(
-        요약["cover_title"], url, 요약["summary"], "", "", 이미지_URL_목록,
+        요약["cover_title"], url, 요약["summary"], "", "", 이미지_URL_목록, 채널명=채널,
     )
     print(f"  노션 페이지: {page_url}")
 

@@ -32,7 +32,7 @@ def 승인_확인_및_처리():
         try:
             결과 = 캡션_해시태그_생성(
                 {"summary": 페이지["summary"], "points": []},
-                채널명="", url=페이지["source_url"],
+                채널명=페이지["channel"], url=페이지["source_url"],
             )
             if 결과 is None:
                 print(f"  [건너뜀] {페이지['title']} — 캡션/해시태그 생성 실패, 다음 주기에 재시도")
