@@ -5,6 +5,9 @@ on:
     - cron: '*/15 * * * *'  # 15분마다
   workflow_dispatch:
 
+env:
+  PYTHONUTF8: "1"
+
 jobs:
   check-approval:
     runs-on: self-hosted
