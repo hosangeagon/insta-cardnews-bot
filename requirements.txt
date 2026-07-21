@@ -1,0 +1,6 @@
+requests
+python-dotenv
+PyNaCl
+playwright
+google-api-python-client
+youtube-transcript-api

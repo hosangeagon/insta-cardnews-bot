@@ -1,0 +1,11 @@
+# API 키 및 토큰 파일 (절대 커밋 금지)
+.env
+kakao_token.json
+
+# 로그 및 임시 파일
+*.log
+__pycache__/
+*.pyc
+
+# Playwright 브라우저 캐시 (CI에서 매번 새로 설치)
+.cache/

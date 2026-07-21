@@ -1,0 +1,102 @@
+name: 카드뉴스 자동 생성
+
+on:
+  schedule:
+    - cron: '30 23 * * *'  # 매일 오전 8:30 KST (UTC 기준 23:30)
+  workflow_dispatch:         # 수동 실행 버튼 활성화
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 패키지 설치
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: git 사용자 설정 (이미지 커밋용)
+        run: |
+          git config user.name "cardnews-bot"
+          git config user.email "cardnews-bot@users.noreply.github.com"
+
+      - name: 카카오 토큰 파일 생성
+        env:
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+          KAKAO_TOKEN_UPDATED_AT: ${{ secrets.KAKAO_TOKEN_UPDATED_AT }}
+        run: |
+          python -c "
+          import json, os, datetime
+          updated_at = os.environ.get('KAKAO_TOKEN_UPDATED_AT', datetime.datetime.now().isoformat())
+          token = {
+            'access_token': '',
+            'token_type': 'bearer',
+            'refresh_token': os.environ['KAKAO_REFRESH_TOKEN'],
+            'refresh_token_updated_at': updated_at
+          }
+          with open('kakao_token.json', 'w') as f:
+              json.dump(token, f)
+          print('카카오 토큰 파일 생성 완료')
+          "
+
+      - name: 카드뉴스 생성 실행
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          KAKAO_REDIRECT_URI: http://localhost
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          GITHUB_RAW_BASE: https://raw.githubusercontent.com/${{ github.repository }}/main
+        run: python generate_daily.py
+
+      - name: 카카오 리프레시 토큰 자동 업데이트
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          KAKAO_REFRESH_TOKEN_OLD: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+        run: |
+          python -c "
+          import json, os, requests, base64
+
+          with open('kakao_token.json', 'r') as f:
+              token = json.load(f)
+
+          new_refresh = token.get('refresh_token', '')
+          old_refresh = os.environ['KAKAO_REFRESH_TOKEN_OLD']
+
+          if new_refresh and new_refresh != old_refresh:
+              pat = os.environ['GH_PAT']
+              repo = '${{ github.repository }}'
+
+              resp = requests.get(
+                  f'https://api.github.com/repos/{repo}/actions/secrets/public-key',
+                  headers={'Authorization': f'token {pat}'}
+              )
+              pub_key_data = resp.json()
+
+              from nacl import encoding, public
+              pk = public.PublicKey(pub_key_data['key'].encode(), encoding.Base64Encoder())
+              box = public.SealedBox(pk)
+              encrypted = base64.b64encode(box.encrypt(new_refresh.encode())).decode()
+
+              requests.put(
+                  f'https://api.github.com/repos/{repo}/actions/secrets/KAKAO_REFRESH_TOKEN',
+                  headers={'Authorization': f'token {pat}'},
+                  json={'encrypted_value': encrypted, 'key_id': pub_key_data['key_id']}
+              )
+              print('리프레시 토큰 업데이트 완료')
+          else:
+              print('리프레시 토큰 변경 없음')
+          "

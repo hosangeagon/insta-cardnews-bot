@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>카드뉴스</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif; }
+
+  .slide {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    overflow: hidden;
+    background: #0B1220;
+    color: #F5F7FA;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 140px 96px 96px;
+  }
+
+  .badge {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #7DD3FC;
+    border: 2px solid #7DD3FC;
+    border-radius: 100px;
+    padding: 10px 28px;
+    margin-bottom: 48px;
+  }
+
+  /* 표지 */
+  #slide-1 { justify-content: center; }
+  #slide-1 .title { font-size: 76px; font-weight: 800; line-height: 1.25; margin-bottom: 32px; }
+  #slide-1 .hook { font-size: 36px; font-weight: 500; color: #9CA8C4; line-height: 1.5; }
+
+  /* 본문 공통 */
+  .slide .heading { font-size: 52px; font-weight: 800; line-height: 1.4; margin-bottom: 56px; }
+  .point-list { display: flex; flex-direction: column; gap: 40px; }
+  .point {
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.5;
+    padding-left: 48px;
+    border-left: 6px solid #7DD3FC;
+  }
+  .comment {
+    margin-top: 56px;
+    font-size: 32px;
+    font-weight: 500;
+    color: #9CA8C4;
+    line-height: 1.6;
+  }
+
+  /* 마무리 */
+  #slide-5 { justify-content: space-between; }
+  #slide-5 .outro-title { font-size: 56px; font-weight: 800; line-height: 1.4; }
+  #slide-5 .source {
+    font-size: 30px;
+    color: #9CA8C4;
+    line-height: 1.7;
+    border-top: 2px solid #263248;
+    padding-top: 40px;
+  }
+  #slide-5 .source strong { color: #F5F7FA; font-weight: 700; }
+  #slide-5 .follow {
+    font-size: 34px;
+    font-weight: 700;
+    color: #7DD3FC;
+    margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="slide" id="slide-1">
+    <div class="badge">AI 뉴스</div>
+    <div class="title">{{TITLE}}</div>
+    <div class="hook">{{HOOK}}</div>
+  </div>
+
+  <div class="slide" id="slide-2">
+    <div class="badge">핵심 요약</div>
+    <div class="heading">{{SUMMARY}}</div>
+    <div class="point-list">
+      <div class="point">{{POINT1}}</div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-3">
+    <div class="badge">더 알아보기</div>
+    <div class="point-list">
+      <div class="point">{{POINT2}}</div>
+      <div class="point">{{POINT3}}</div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-4">
+    <div class="badge">한 줄 코멘트</div>
+    <div class="point-list">
+      <div class="point">{{POINT4}}</div>
+    </div>
+    <div class="comment">{{COMMENT}}</div>
+  </div>
+
+  <div class="slide" id="slide-5">
+    <div class="outro-title">더 많은 AI 소식은<br>계속 이어집니다</div>
+    <div>
+      <div class="source">
+        출처: <strong>{{SOURCE_CHANNEL}}</strong><br>
+        {{SOURCE_TITLE}}
+      </div>
+      <div class="follow">팔로우하고 매일 AI 소식 받아보기 →</div>
+    </div>
+  </div>
+
+</body>
+</html>
