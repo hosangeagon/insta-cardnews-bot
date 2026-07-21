@@ -23,8 +23,9 @@ jobs:
 
       - name: git 사용자 설정 (이미지 커밋용)
         run: |
-          git config user.name "cardnews-bot"
-          git config user.email "cardnews-bot@users.noreply.github.com"
+          git config --global user.name "cardnews-bot"
+          git config --global user.email "cardnews-bot@users.noreply.github.com"
+          git config --global --add safe.directory "*"
 
       - name: 카카오 토큰 파일 생성
         env:
