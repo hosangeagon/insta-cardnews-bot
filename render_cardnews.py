@@ -16,14 +16,19 @@ SLIDE_IDS = ["slide-1", "slide-2", "slide-3", "slide-4", "slide-5"]
 def _템플릿_채우기(요약):
     템플릿 = TEMPLATE_PATH.read_text(encoding="utf-8")
 
+    포인트목록 = 요약.get("points", ["", "", "", "", ""])
+    while len(포인트목록) < 5:
+        포인트목록.append("")
+
     치환값 = {
         "{{TITLE}}": 요약.get("cover_title", ""),
         "{{HOOK}}": 요약.get("hook", ""),
         "{{SUMMARY}}": 요약.get("summary", ""),
-        "{{POINT1}}": 요약.get("points", ["", "", "", ""])[0],
-        "{{POINT2}}": 요약.get("points", ["", "", "", ""])[1],
-        "{{POINT3}}": 요약.get("points", ["", "", "", ""])[2],
-        "{{POINT4}}": 요약.get("points", ["", "", "", ""])[3],
+        "{{POINT1}}": 포인트목록[0],
+        "{{POINT2}}": 포인트목록[1],
+        "{{POINT3}}": 포인트목록[2],
+        "{{POINT4}}": 포인트목록[3],
+        "{{POINT5}}": 포인트목록[4],
         "{{COMMENT}}": 요약.get("comment", ""),
         "{{SOURCE_CHANNEL}}": 요약.get("source_channel", ""),
         "{{SOURCE_TITLE}}": 요약.get("source_title", ""),

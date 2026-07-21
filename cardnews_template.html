@@ -37,26 +37,29 @@
 
   /* 표지 */
   #slide-1 { justify-content: center; }
-  #slide-1 .title { font-size: 76px; font-weight: 800; line-height: 1.25; margin-bottom: 32px; }
-  #slide-1 .hook { font-size: 36px; font-weight: 500; color: #9CA8C4; line-height: 1.5; }
+  #slide-1 .title { font-size: 88px; font-weight: 800; line-height: 1.3; margin-bottom: 44px; }
+  #slide-1 .hook { font-size: 44px; font-weight: 500; color: #9CA8C4; line-height: 1.6; }
 
   /* 본문 공통 */
-  .slide .heading { font-size: 52px; font-weight: 800; line-height: 1.4; margin-bottom: 56px; }
-  .point-list { display: flex; flex-direction: column; gap: 40px; }
+  .slide .heading { font-size: 62px; font-weight: 800; line-height: 1.5; margin-bottom: 88px; }
+  .point-list { display: flex; flex-direction: column; gap: 112px; }
   .point {
-    font-size: 36px;
+    font-size: 56px;
     font-weight: 600;
-    line-height: 1.5;
-    padding-left: 48px;
-    border-left: 6px solid #7DD3FC;
+    line-height: 1.7;
+    padding-left: 52px;
+    border-left: 7px solid #7DD3FC;
   }
   .comment {
-    margin-top: 56px;
-    font-size: 32px;
+    margin-top: 96px;
+    font-size: 46px;
     font-weight: 500;
     color: #9CA8C4;
-    line-height: 1.6;
+    line-height: 1.7;
   }
+
+  /* 포인트만 있는 슬라이드(요약 heading 없음)는 세로 중앙 배치 */
+  #slide-3, #slide-4 { justify-content: center; }
 
   /* 마무리 */
   #slide-5 { justify-content: space-between; }
@@ -105,6 +108,7 @@
     <div class="badge">한 줄 코멘트</div>
     <div class="point-list">
       <div class="point">{{POINT4}}</div>
+      <div class="point">{{POINT5}}</div>
     </div>
     <div class="comment">{{COMMENT}}</div>
   </div>
